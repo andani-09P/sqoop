@@ -9,6 +9,7 @@ All records are stored as text data in the text files or as binary data in Avro 
 
 <h4> Syntax </h4>
 The following syntax is used to import data into HDFS.
+
 ```
 sqoop import (generic-args) (import-args) </br>
 ```
@@ -46,4 +47,70 @@ The following command is used to import a subset of emp_add table data. The subs
 --m 1 \
 --where “city =’sec-bad’” \
 --target-dir /wherequery
+```
+
+<h3>Import Subset of Table Data</h3>
+
+We can import a subset of a table using the ‘where’ clause in Sqoop import tool. It executes the corresponding SQL query in the respective database server and stores the result in a target directory in HDFS.
+
+
+```
+sqoop import 
+--connect jdbc:mysql://localhost/userdb 
+--username root 
+--table emp_add 
+--m 1 
+--where “city =’sec-bad’” 
+--target-dir /query
+```
+
+<h3>Incremental Import</h3>
+It is required to add ‘incremental’, ‘check-column’, and ‘last-value’ options to perform the incremental import.
+
+
+like if data is being updated and we need to in update data in hdfs also
+
+```
+--incremental <mode>
+--check-column <column name>
+--last value <last check column value>
+```
+
+
+command
+```
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root \
+--table emp \
+--m 1 \
+--incremental append \
+--check-column id \
+-last value 1205
+```
+
+<h4>The following syntax is used to import all tables.</h4>
+```
+$ sqoop import-all-tables (generic-args) (import-args) 
+```
+
+
+command
+```
+sqoop import-all-tables \
+--connect jdbc:mysql://localhost/userdb \
+--username root
+```
+
+<h4> export data back from the HDFS to the RDBMS database</h4>
+```
+ sqoop-export (generic-args) (export-args)
+ ```
+ command
+ ```
+ sqoop export \
+--connect jdbc:mysql://localhost/db \
+--username root \
+--table employee \ 
+--export-dir /emp/emp_data
 ```
