@@ -154,3 +154,4 @@ sqoop job --list
 sqoop job --exec myjob
 ```
 
+Apache website: https://sqoop.apache.org/docs/1.4.1-incubating/SqoopUserGuide.html
